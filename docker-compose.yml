@@ -1,0 +1,32 @@
+version: '3.7'
+
+services: 
+  
+  backend_app: 
+    depends_on: ["db"]
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: brave_galileo_backend
+    ports: 
+      - '3000:3000'
+    environment:
+      PORT: 3000
+  
+  frontend_app: 
+    depends_on: ["backend_app"]
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: brave_galileo_frontend
+    ports: 
+      - '3333:3333'
+    environment:
+      PORT: 3333
+  
+  db: 
+    image: postgres:12
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
